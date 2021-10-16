@@ -1,0 +1,80 @@
+{%extends 'base.html'%}
+    {% block body%}
+    <body>
+        <div>
+          <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#"><h4>Users</h4></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                
+                <li class="nav-item">
+                  <a class="nav-link" href="add_user">Add User</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="logout">Logout</a>
+                </li>
+                
+                
+            </div>
+          </nav>
+        </div>
+      
+          
+      
+          
+          <div class = container>
+          <table id="table_id" class="table table-striped">
+            <thead>
+              <tr>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Email</th>
+                  <th>Username</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for user in users %}
+              <tr>
+                  <td>{{user.first_name }}</td>
+                  <td>{{user.last_name}}</td>
+                  <td>{{user.email}}</td>
+                  <td>{{user.username}}</td>
+                  
+                  
+                  
+                  <td><a href="edit_user?id={{user.id}}" class="btn btn-info ">Edit</a></td>
+                  <td><a href="deleteuser?id={{user.id}}" class="btn btn-danger">Delete</a></td>
+
+              </tr>
+              {% endfor %}
+            </tbody>
+            </table>
+          </div>
+      
+          <!-- Optional JavaScript; choose one of the two! -->
+          <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.3/af-2.3.7/b-2.0.1/b-colvis-2.0.1/b-html5-2.0.1/b-print-2.0.1/cr-1.5.4/date-1.1.1/fc-4.0.0/kt-2.6.4/r-2.2.9/rg-1.1.3/rr-1.2.8/sl-1.3.3/datatables.min.css"/>
+          <!-- Option 1: Bootstrap Bundle with Popper -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+          
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+            <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.3/af-2.3.7/b-2.0.1/b-colvis-2.0.1/b-html5-2.0.1/b-print-2.0.1/cr-1.5.4/date-1.1.1/fc-4.0.0/kt-2.6.4/r-2.2.9/rg-1.1.3/rr-1.2.8/sl-1.3.3/datatables.min.js"></script>
+            {% block js%}
+            <script>
+              $(document).ready( function () {
+                $('#table_id').DataTable();
+              
+              });
+            </script>
+           {% endblock %}
+        </body>
+
+
+    {%endblock%}
