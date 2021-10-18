@@ -75,16 +75,21 @@ def register(request):
  
 def admin(request):
     if (request.method=='POST'):
-        username=request.POST['username']
-        password=request.POST['password']
-        print(username,password)
-        user = auth.authenticate(username=username,password=password,is_superuser=True, is_staff=True)
+        admin_username=request.POST['username']
+        admin_password=request.POST['password']
+        print(admin_username,admin_password)
+        admin_user = auth.authenticate(username=admin_username,password=admin_password)
+        print("====",admin_user)
+        if admin_user is not None:
+            if admin_user.is_superuser:
+                # request.session['user_id'] = admin_user.id
+                # request.session['user_username'] = admin_user.username
+                # user = request.session.get('session_key')
+                return redirect('adminhome')
+            else:
+                print("====",admin_user)
+                return redirect('admin')
         
-        if user is not None:
-            request.session['user_id'] = user.id
-            request.session['user_username'] = user.username
-            user = request.session.get('session_key')
-            return redirect('adminhome')
         else:
             return redirect('admin')
     else:
@@ -107,6 +112,13 @@ def viewcategory(request):
     cat_list=Categories.objects.all()
     return render(request, "categories.html",{"categories":cat_list} )
 
+def deletecategory(request):
+    id=request.GET['id']
+    category = Categories.objects.filter(id=id)
+    print(category)
+    category.delete()
+    return redirect('viewcategory')
+
 def adminhome(request):
     return render(request, 'adminhome.html')
 
@@ -116,6 +128,10 @@ def addcategory(request):
     categories.save()
 
     return redirect('viewcategory')
+
+def view_products(request):
+
+    return render(request,'viewproducts.html')
 
 def edituser(request):
     id=request.GET['id']
@@ -131,7 +147,7 @@ def edituser(request):
         user.last_name=lname
         user.email=email
         user.username=username
-        user.password=password
+        # user.password=password
         user.save();
         print('success')
         return redirect('view_user')
@@ -182,6 +198,9 @@ def add_user(request):
     else:
         
         return render(request,'adduser.html')
+
+def addproducts(request):
+    return render('addproducts.html')
 
 
 

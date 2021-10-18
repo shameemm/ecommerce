@@ -14,5 +14,8 @@ urlpatterns=[
     path('edit_user',views.edituser,name='edituser'),
     path('deleteuser',views.deleteuser,name='deleteuser'),
     path('view_category',views.viewcategory,name='viewcategory'),
-    path('addcategory',views.addcategory,name="addcategory")
+    path('addcategory',views.addcategory,name="addcategory"),
+    path('deletecategory',views.deletecategory,name="deletecategory"),
+    path('view_products',views.view_products,name="view_products"),
+    path('addproducts',views.addproducts,name="addproducts")
 ]
