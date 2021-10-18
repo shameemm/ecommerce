@@ -32,6 +32,7 @@
               <tr>
                   <th>Product Name</th>
                   <th>Description</th>
+                  <th>Category</th>
                   <th>Images</th>
                   <th>Price</th>
                   <th>Edit</th>
@@ -39,17 +40,18 @@
               </tr>
             </thead>
             <tbody>
-              {% for user in users %}
+              {% for product in products %}
               <tr>
-                  <td>{{user.first_name }}</td>
-                  <td>{{user.last_name}}</td>
-                  <td>{{user.email}}</td>
-                  <td>{{user.username}}</td>
+                  <td>{{product.pname }}</td>
+                  <td>{{product.description}}</td>
+                  <td>{{product.category}}</td>
+                  <td>{{product.image}}</td>
+                  <td>{{product.price}}</td>
                   
                   
                   
-                  <td><a href="edit_user?id={{user.id}}" class="btn btn-info ">Edit</a></td>
-                  <td><a href="deleteuser?id={{user.id}}" class="btn btn-danger">Delete</a></td>
+                  <td><a href="editproduct?id={{product.id}}" class="btn btn-info ">Edit</a></td>
+                  <td><a href="deletproduct?id={{product.id}}" class="btn btn-danger">Delete</a></td>
 
               </tr>
               {% endfor %}

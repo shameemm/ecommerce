@@ -2,8 +2,10 @@ from django.core.exceptions import MiddlewareNotUsed
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
+from werkzeug.utils import secure_filename
 from django.http import JsonResponse, request
-from .models import Categories
+from .models import Categories, Products
+import os
 
 # Create your views here.
 def login(request):
@@ -82,9 +84,9 @@ def admin(request):
         print("====",admin_user)
         if admin_user is not None:
             if admin_user.is_superuser:
-                # request.session['user_id'] = admin_user.id
-                # request.session['user_username'] = admin_user.username
-                # user = request.session.get('session_key')
+                request.session['user_id'] = admin_user.id
+                request.session['user_username'] = admin_user.username
+                user = request.session.get('session_key')
                 return redirect('adminhome')
             else:
                 print("====",admin_user)
@@ -129,9 +131,7 @@ def addcategory(request):
 
     return redirect('viewcategory')
 
-def view_products(request):
 
-    return render(request,'viewproducts.html')
 
 def edituser(request):
     id=request.GET['id']
@@ -200,9 +200,57 @@ def add_user(request):
         return render(request,'adduser.html')
 
 def addproducts(request):
-    return render('addproducts.html')
+    if(request.method=='POST'):
+        pname=request.POST['pname']
+        pdesc=request.POST['pdesc']
+        image=request.POST['image']
+        
+        category=request.POST['category']
+        price=request.POST['price']
+        print(category)
+        product=Products.objects.create(pname=pname,description=pdesc,image=image,category=category,price=price)
+        return redirect('view_products')
+    else:    
+        cat_list=Categories.objects.all()
+        return render(request, 'addproducts.html', {"categories":cat_list} )
 
+def view_products(request):
+    products=Products.objects.all()
 
+    return render(request,'viewproducts.html',{"products":products})
+
+def deleteproduct(request):
+      id=request.GET['id']
+      product = Products.objects.filter(id=id)
+      print(product)
+      product.delete()
+      return redirect('view_products')
+
+def editproduct(request):
+    id=request.GET['id']
+    if(request.method=='POST'):
+        pname=request.POST['pname']
+        pdesc=request.POST['pdesc']
+        image=request.POST['image']
+        
+        category=request.POST['category']
+        price=request.POST['price']
+        product = Products.objects.get(id=id)
+        product.pname=pname
+        product.description=pdesc
+        product.image=image
+        product.category=category
+        product.price=price
+        product.save();
+        print('success')
+        return redirect('view_products')
+         
+    else:
+        
+        product = Products.objects.filter(id=id)
+        cat_list=Categories.objects.all()
+        print(cat_list)
+        return render(request,'editproduct.html',{"products":product,"categories":cat_list})
 
 def logout(request):
     del request.session['user_username']
