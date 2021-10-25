@@ -36,7 +36,7 @@ def login(request):
         print(user)
         if user is not None:
             print(user)
-            return redirect('display')
+            return redirect('/home')
         else:
             return render(request, 'user_login.html')
 
@@ -107,8 +107,10 @@ def view_user(request):
     user = User.objects.all()
     return render(request, 'view_user.html', {"users":user})
 
-def display(request):
-    return render(request, "display.html")
+def home(request):
+    user = request.session.get('user_username')
+    print(user)
+    return render(request, "home.html", {"user":user})
 
 def viewcategory(request):
     cat_list=Categories.objects.all()
@@ -253,8 +255,8 @@ def editproduct(request):
         return render(request,'editproduct.html',{"products":product,"categories":cat_list})
 
 def logout(request):
-    del request.session['user_username']
-    # request.session.flush()
+    # del request.session['user_username']
+    request.session.flush()
     
     
     return redirect('/') 
