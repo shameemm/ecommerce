@@ -19,5 +19,6 @@ urlpatterns=[
     path('view_products',views.view_products,name="view_products"),
     path('addproducts',views.addproducts,name="addproducts"),
     path('deletproduct',views.deleteproduct,name="deleteproduct"),
-    path('editproduct',views.editproduct,name="editproduct")
+    path('editproduct',views.editproduct,name="editproduct"),
+    path('profile', views.profile, name="profile")
     ]

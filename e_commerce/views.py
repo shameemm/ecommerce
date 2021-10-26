@@ -116,6 +116,9 @@ def viewcategory(request):
     cat_list=Categories.objects.all()
     return render(request, "categories.html",{"categories":cat_list} )
 
+def profile(request):
+    return render(request, 'profile.html')
+
 def deletecategory(request):
     id=request.GET['id']
     category = Categories.objects.filter(id=id)
