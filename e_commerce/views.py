@@ -110,7 +110,8 @@ def view_user(request):
 def home(request):
     user = request.session.get('user_username')
     print(user)
-    return render(request, "home.html", {"user":user})
+    product = Products.objects.all()
+    return render(request, "home.html", {"user":user, "products":product})
 
 def viewcategory(request):
     cat_list=Categories.objects.all()
@@ -126,7 +127,8 @@ def deletecategory(request):
     category.delete()
     return redirect('viewcategory')
 
-def adminhome(request):
+def adminhome(request): 
+
     return render(request, 'adminhome.html')
 
 def addcategory(request):
