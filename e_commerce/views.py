@@ -4,7 +4,7 @@ from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from werkzeug.utils import secure_filename
 from django.http import JsonResponse, request
-from .models import Categories, Products
+from .models import Category, Products
 import os
 
 # Create your views here.
@@ -114,7 +114,7 @@ def home(request):
     return render(request, "home.html", {"user":user, "products":product})
 
 def viewcategory(request):
-    cat_list=Categories.objects.all()
+    cat_list=Category.objects.all()
     return render(request, "categories.html",{"categories":cat_list} )
 
 def profile(request):
@@ -122,7 +122,7 @@ def profile(request):
 
 def deletecategory(request):
     id=request.GET['id']
-    category = Categories.objects.filter(id=id)
+    category = Category.objects.filter(category=id)
     print(category)
     category.delete()
     return redirect('viewcategory')
@@ -133,7 +133,7 @@ def adminhome(request):
 
 def addcategory(request):
     category=request.POST['catergory']
-    categories=Categories.objects.create(category=category)
+    categories=Category.objects.create(category=category)
     categories.save()
 
     return redirect('viewcategory')
@@ -214,11 +214,11 @@ def addproducts(request):
         
         category=request.POST['category']
         price=request.POST['price']
-        print(category)
+        
         product=Products.objects.create(pname=pname,description=pdesc,image=image,category=category,price=price)
         return redirect('view_products')
     else:    
-        cat_list=Categories.objects.all()
+        cat_list=Category.objects.all()
         return render(request, 'addproducts.html', {"categories":cat_list} )
 
 def view_products(request):
@@ -255,7 +255,7 @@ def editproduct(request):
     else:
         
         product = Products.objects.filter(id=id)
-        cat_list=Categories.objects.all()
+        cat_list=Category.objects.all()
         print(cat_list)
         return render(request,'editproduct.html',{"products":product,"categories":cat_list})
 
